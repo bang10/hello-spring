@@ -19,13 +19,13 @@ class MemberServiceTest {
     //같은 인스턴스를 사용 함
     //DI 의존성
     @BeforeEach
-    public void beforeEach(){
+    public void beforeEach() {
         memberRepository = new MemoryMemberRepository();
         memberService = new MemberService(memberRepository);
     }
 
     @AfterEach
-    public void afterEach(){
+    public void afterEach() {
         memberRepository.clearStore();
     }
 
@@ -46,18 +46,16 @@ class MemberServiceTest {
 
     //예외 처리 (더 중요함)
     @Test
-    public void 중복_회원_예외(){
+    public void 중복_회원_예외() {
         //given
         Member member1 = new Member();
-        member1. setName("spring");
+        member1.setName("spring");
 
         Member member2 = new Member();
-        member2. setName("spring");
+        member2.setName("spring");
 
         //when
         memberService.join(member1);
-        IllegalStateException e = assertThrows(IllegalStateException.class, () -> memberService.join(member2));
-        org.assertj.core.api.Assertions.assertThat(e.getMessage()).isEqualTo("이미 존재하는 아이디입니다.");
 
         //상당히 비효율 적
 //        try {
@@ -67,9 +65,9 @@ class MemberServiceTest {
 //            org.assertj.core.api.Assertions.assertThat(e.getMessage()).isEqualTo("12");
 //        }
 
-
         //then
-
+        IllegalStateException e = assertThrows(IllegalStateException.class, () -> memberService.join(member2));
+        org.assertj.core.api.Assertions.assertThat(e.getMessage()).isEqualTo("이미 존재하는 아이디입니다.");
     }
 
     @Test
